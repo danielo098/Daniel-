@@ -1,0 +1,39 @@
+/*
+Zapisywanie do pliku z konsoli
+*/
+
+import java.io.*;
+import java.util.ArrayList;
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        ArrayList<String> lista = new ArrayList<>();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String fileName = reader.readLine();
+        FileWriter fileWriter = new FileWriter(fileName);
+        BufferedWriter writer = new BufferedWriter(fileWriter);
+
+        String line = "";
+        try{
+
+            while(!"exit".equals(line)){
+                line = reader.readLine();
+                System.out.println("Wprowadzony wyraz to : "+ line);
+                lista.add(line);
+
+            }
+            System.out.println("Koniec wczytywania danych");
+        }
+        catch(Exception e){
+            System.out.println("Bład podczas odczytu strumienia");
+        }
+        finally {
+            writer.close();
+        }
+
+        for(int i = 0; i < lista.size(); i++){
+            System.out.println(lista.get(i));
+        }
+    }
+}
