@@ -1,39 +1,75 @@
-/*
-Zapisywanie do pliku z konsoli
-*/
 
 import java.io.*;
 import java.util.ArrayList;
+/*
+Koty
+*/
+
+import java.util.Scanner;
 
 public class Solution {
     public static void main(String[] args) throws IOException {
-        ArrayList<String> lista = new ArrayList<>();
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String fileName = reader.readLine();
-        FileWriter fileWriter = new FileWriter(fileName);
-        BufferedWriter writer = new BufferedWriter(fileWriter);
-
-        String line = "";
-        try{
-
-            while(!"exit".equals(line)){
-                line = reader.readLine();
-                System.out.println("Wprowadzony wyraz to : "+ line);
-                lista.add(line);
-
+        String key;
+        try {
+            while (!((key = reader.readLine()).isEmpty())) {
+                Cat cat = CatFactory.getCatByKey(key);
+                System.out.println(cat.toString());
             }
-            System.out.println("Koniec wczytywania danych");
         }
-        catch(Exception e){
-            System.out.println("Bład podczas odczytu strumienia");
+        catch(Exception e){ }
+    }
+    
+
+    static class CatFactory {
+        static Cat getCatByKey(String key) {
+            Cat cat = null;
+            if ("dziki".equals(key)) {
+                cat = new FemaleCat("Pazur");
+            } else if ("mańka".equals(key)) {
+                cat = new FemaleCat("Mania");
+            } else if ("kafel".equals(key)) {
+                cat = new NiceCat("Kafelek");
+            } else {
+                cat = new Cat(key);
+            }
+            return cat;
         }
-        finally {
-            writer.close();
+    }
+
+    static class Cat extends CatFactory {
+        private String name;
+
+        protected Cat(String name) {
+            this.name = name;
         }
 
-        for(int i = 0; i < lista.size(); i++){
-            System.out.println(lista.get(i));
+        public String getName() {
+            return this.name;
+        }
+
+        public String toString() {
+            return "Jestem " + getName() + ", podwórkowy kocur";
+        }
+    }
+
+    static class FemaleCat extends Cat {
+        FemaleCat(String name) {
+            super(name);
+        }
+
+        public String toString() {
+            return "Jestem " + getName() + ", zaraz wydrapię Ci oczy";
+        }
+    }
+
+    static class NiceCat extends Cat {
+        NiceCat(String name) {
+            super(name);
+        }
+
+        public String toString() {
+            return "Jestem miłą kotką o imieniu " + getName();
         }
     }
 }
