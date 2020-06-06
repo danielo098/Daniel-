@@ -1,75 +1,76 @@
 
-import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+
 /*
-Koty
+Usługi sprzątające
 */
 
-import java.util.Scanner;
-
 public class Solution {
-    public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String key;
-        try {
-            while (!((key = reader.readLine()).isEmpty())) {
-                Cat cat = CatFactory.getCatByKey(key);
-                System.out.println(cat.toString());
-            }
-        }
-        catch(Exception e){ }
-    }
-    
+    public static void main(String[] args) {
+        List<Apartment> apartments = new ArrayList<>();
+        apartments.add(new OneRoomApt());
+        apartments.add(new TwoRoomApt());
+        apartments.add(new ThreeRoomApt());
 
-    static class CatFactory {
-        static Cat getCatByKey(String key) {
-            Cat cat = null;
-            if ("dziki".equals(key)) {
-                cat = new FemaleCat("Pazur");
-            } else if ("mańka".equals(key)) {
-                cat = new FemaleCat("Mania");
-            } else if ("kafel".equals(key)) {
-                cat = new NiceCat("Kafelek");
-            } else {
-                cat = new Cat(key);
-            }
-            return cat;
+        cleanAllApartments(apartments);
+    }
+
+    public static void cleanAllApartments(List<Apartment> apartments) {
+
+        for(int i = 0; i < apartments.size(); i ++) {
+
+            OneRoomApt oneRoomApt = new OneRoomApt();
+            oneRoomApt.clean1Room();
+
+        if(Apartment instanceof TwoRoomApt) {
+            TwoRoomApt twoRoomApt = new TwoRoomApt();
+            twoRoomApt.clean2Rooms();
+        }
+        if(apartments instanceof ThreeRoomApt){
+            ThreeRoomApt threeRoomApt = new ThreeRoomApt();
+            threeRoomApt.clean3Rooms();
+        }
         }
     }
 
-    static class Cat extends CatFactory {
-        private String name;
+    static interface Apartment {
+    }
 
-        protected Cat(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return this.name;
-        }
-
-        public String toString() {
-            return "Jestem " + getName() + ", podwórkowy kocur";
+    static class OneRoomApt implements Apartment {
+        void clean1Room() {
+            System.out.println("Posprzątano 1 pokój");
         }
     }
 
-    static class FemaleCat extends Cat {
-        FemaleCat(String name) {
-            super(name);
-        }
-
-        public String toString() {
-            return "Jestem " + getName() + ", zaraz wydrapię Ci oczy";
+    static class TwoRoomApt implements Apartment {
+        void clean2Rooms() {
+            System.out.println("Posprzątano 2 pokoje");
         }
     }
 
-    static class NiceCat extends Cat {
-        NiceCat(String name) {
-            super(name);
-        }
-
-        public String toString() {
-            return "Jestem miłą kotką o imieniu " + getName();
+    static class ThreeRoomApt implements Apartment {
+        void clean3Rooms() {
+            System.out.println("Posprzątano 3 pokoje");
         }
     }
 }
+
+/*
+1. Implementuj metodę cleanAllApartments.
+Dla każdego obiektu w apartments:
+2. Dla mieszkań z jedną sypialnią (OneRoomApt) wywołaj metodę clean1Room. // tu jest bład
+np. jeżeli przekazywany jest obiekt OneRoomApt, wywołaj jego metodę clean1Room.
+3. Dla mieszkań z dwiema sypialniami (TwoRoomApt) wywołaj metodę clean2Rooms.// tu jest bład
+np. jeżeli przekazywany jest obiekt TwoRoomApt, wywołaj jego metodę clean2Rooms.
+4. Dla mieszkań z trzema sypialniami (ThreeRoomApt) wywołaj metodę clean3Rooms.// tu jest bład
+np. jeżeli przekazywany jest obiekt ThreeRoomApt, wywołaj jego metodę clean3Rooms.
+
+Requirements:
+•	Metoda cleanAllApartments musi przyjąć listę apartments jako argument.
+•	Dla wszystkich mieszkań z jedną sypialnią (OneRoomApt) na liście metoda cleanAllApartments musi wywoływać metodę clean1Room.
+•	Dla wszystkich mieszkań z dwiema sypialniami (TwoRoomApt) na liście metoda cleanAllApartments musi wywoływać metodę clean2Rooms.
+•	Dla wszystkich mieszkań z trzema sypialniami (ThreeRoomApt) na liście metoda cleanAllApartments musi wywoływać metodę clean3Rooms.
+•	Klasy OneRoomApt, TwoRoomApt i ThreeRoomApt powinny obsługiwać (implementować) interfejs Apartament.
+ */
+ 
